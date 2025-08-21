@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Contador Numérico</title>
+  <!-- Favicon usando emoji 💻 -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      color: #222;
+    }
+
+    /* Faixa amarela no topo (mais escura) */
+    header {
+      background: #e6b800; /* amarelo escuro mais suave */
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+      color: #000;
+      font-weight: bold;
+    }
+
+    main {
+      padding: 20px 20px;
+    }
+
+    h1 {
+      margin-bottom: 15px;
+      font-size: 28px;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+      font-size: 20px;
+      color: #333;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .counter {
+      padding: 20px;
+      width: 240px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .display {
+      font-size: 56px;
+      font-weight: bold;
+      font-family: 'Courier New', monospace;
+      background: #000;
+      color: #fff;
+      padding: 15px 20px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      display: inline-block;
+      min-width: 130px;
+      letter-spacing: 5px;
+      border: 2px solid #ccc;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .btn {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+      font-size: 40px;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+    }
+
+    .btn.minus {
+      background: #f5e9d5;
+    }
+
+    .btn.plus {
+      background: #b9f2b9;
+    }
+
+    .btn.active-red {
+      background: #ff4040 !important;
+    }
+
+    .btn.active-green {
+      background: #32cd32 !important;
+    }
+
+    .total {
+      margin-top: 30px;
+      font-size: 32px;
+      font-weight: bold;
+      color: #111;
+    }
+
+    .footer {
+      margin-top: 25px;
+    }
+
+    .reset-btn {
+      padding: 10px 25px;
+      font-size: 18px;
+      background: #ff6961;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+
+    .reset-btn:hover {
+      background: #ff4040;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>MIDAS</h1>
+  </header>
+
+  <main>
+    <h1>Contador Numérico</h1>
+
+    <div class="container">
+      <div class="counter">
+        <h2>Helper</h2>
+        <div id="helper-display" class="display">00</div>
+        <div class="buttons">
+          <button id="helper-minus" class="btn minus" onclick="updateCounter('helper', -1, this)">−</button>
+          <button id="helper-plus" class="btn plus" onclick="updateCounter('helper', 1, this)">+</button>
+        </div>
+      </div>
+
+      <div class="counter">
+        <h2>Analista</h2>
+        <div id="analista-display" class="display">00</div>
+        <div class="buttons">
+          <button id="analista-minus" class="btn minus" onclick="updateCounter('analista', -1, this)">−</button>
+          <button id="analista-plus" class="btn plus" onclick="updateCounter('analista', 1, this)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="total">
+      Valor Total: <span id="total">0.0</span>
+    </div>
+
+    <div class="footer">
+      <button class="reset-btn" onclick="resetCounters()">Redefinir</button>
+    </div>
+  </main>
+
+  <script>
+    let helper = 0;
+    let analista = 0;
+    let total = 0;
+
+    function flashButton(button, colorClass) {
+      button.classList.add(colorClass);
+      setTimeout(() => {
+        button.classList.remove(colorClass);
+      }, 200);
+    }
+
+    function updateCounter(type, change, button) {
+      if (type === 'helper') {
+        helper += change;
+        document.getElementById('helper-display').innerText = helper.toString().padStart(2, '0');
+        total += change * 0.6;
+      } else if (type === 'analista') {
+        analista += change;
+        document.getElementById('analista-display').innerText = analista.toString().padStart(2, '0');
+        total += change * 1.1;
+      }
+
+      document.getElementById('total').innerText = total.toFixed(1);
+
+      if (button.classList.contains('plus')) {
+        flashButton(button, 'active-green');
+      } else if (button.classList.contains('minus')) {
+        flashButton(button, 'active-red');
+      }
+    }
+
+    function resetCounters() {
+      helper = 0;
+      analista = 0;
+      total = 0;
+      document.getElementById('helper-display').innerText = "00";
+      document.getElementById('analista-display').innerText = "00";
+      document.getElementById('total').innerText = total.toFixed(1);
+    }
+  </script>
+
+</body>
+</html>
