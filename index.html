@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Contador Numérico</title>
-  <!-- Favicon usando emoji 💻 -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
   <style>
     body {
@@ -13,85 +12,93 @@
       margin: 0;
       padding: 0;
       color: #222;
+      overflow-x: hidden;
     }
 
-    /* Faixa amarela no topo (mais escura) */
     header {
-      background: #e6b800; /* amarelo escuro mais suave */
-      padding: 15px 30px;
+      background: #e6b800;
+      padding: 10px 20px;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: space-between;
     }
 
     header h1 {
       margin: 0;
-      font-size: 28px;
+      font-size: 24px;
       color: #000;
       font-weight: bold;
     }
 
+    #history-toggle {
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      margin-right: 40px;
+    }
+
     main {
-      padding: 20px 20px;
+      padding: 10px 10px;
     }
 
     h1 {
-      margin-bottom: 15px;
-      font-size: 28px;
+      margin-bottom: 10px;
+      font-size: 24px;
     }
 
     h2 {
-      margin-bottom: 10px;
-      font-size: 20px;
+      margin-bottom: 8px;
+      font-size: 18px;
       color: #333;
     }
 
     .container {
       display: flex;
       justify-content: center;
-      gap: 30px;
-      margin-top: 20px;
+      gap: 35px; /* Aumentei o espaçamento novamente */
+      margin-top: 15px;
       flex-wrap: wrap;
     }
 
     .counter {
-      padding: 20px;
-      width: 240px;
+      padding: 10px;
+      width: 150px;
       background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      box-shadow: 0 3px 5px rgba(0,0,0,0.1);
     }
 
     .display {
-      font-size: 56px;
+      font-size: 32px;
       font-weight: bold;
       font-family: 'Courier New', monospace;
       background: #000;
       color: #fff;
-      padding: 15px 20px;
+      padding: 8px 10px;
       border-radius: 6px;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
       display: inline-block;
-      min-width: 130px;
-      letter-spacing: 5px;
+      min-width: 80px;
+      letter-spacing: 2px;
       border: 2px solid #ccc;
     }
 
     .buttons {
       display: flex;
       justify-content: center;
-      gap: 15px;
+      gap: 8px;
     }
 
     .btn {
-      width: 80px;
-      height: 80px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       border: 2px solid #ccc;
-      font-size: 40px;
+      font-size: 22px;
       cursor: pointer;
       transition: 0.2s;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      box-shadow: 0 3px 5px rgba(0,0,0,0.2);
     }
 
     .btn:hover {
@@ -115,37 +122,100 @@
     }
 
     .total {
-      margin-top: 30px;
-      font-size: 32px;
+      margin-top: 20px;
+      font-size: 22px;
       font-weight: bold;
       color: #111;
     }
 
     .footer {
-      margin-top: 25px;
+      margin-top: 15px;
+    }
+
+    .reset-btn, .save-btn {
+      padding: 6px 15px;
+      font-size: 14px;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+      margin: 0 3px;
     }
 
     .reset-btn {
-      padding: 10px 25px;
-      font-size: 18px;
       background: #ff6961;
-      color: white;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: 0.2s;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
 
     .reset-btn:hover {
       background: #ff4040;
     }
+
+    .save-btn {
+      background: #4caf50;
+    }
+
+    .save-btn:hover {
+      background: #3e8e41;
+    }
+
+    #history-panel {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 300px;
+      height: 100%;
+      background: #fff;
+      box-shadow: -2px 0 5px rgba(0,0,0,0.3);
+      transition: right 0.3s ease;
+      padding: 20px;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+
+    #history-panel.open {
+      right: 0;
+    }
+
+    #history-list {
+      text-align: left;
+      margin-top: 10px;
+      font-size: 14px;
+      list-style: none;
+      padding: 0;
+    }
+
+    #history-list li {
+      margin-bottom: 8px;
+      padding: 5px;
+      background: #f0f0f0;
+      border-radius: 6px;
+    }
+
+    #clear-history-btn {
+      background: #ff6961;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 4px 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.2s;
+      font-size: 12px;
+    }
+
+    #clear-history-btn:hover {
+      background: #ff4040;
+    }
+
   </style>
 </head>
 <body>
 
   <header>
     <h1>MIDAS</h1>
+    <button id="history-toggle">📜</button>
   </header>
 
   <main>
@@ -156,8 +226,8 @@
         <h2>Helper</h2>
         <div id="helper-display" class="display">00</div>
         <div class="buttons">
-          <button id="helper-minus" class="btn minus" onclick="updateCounter('helper', -1, this)">−</button>
-          <button id="helper-plus" class="btn plus" onclick="updateCounter('helper', 1, this)">+</button>
+          <button class="btn minus" onclick="updateCounter('helper', -1, this)">−</button>
+          <button class="btn plus" onclick="updateCounter('helper', 1, this)">+</button>
         </div>
       </div>
 
@@ -165,8 +235,46 @@
         <h2>Analista</h2>
         <div id="analista-display" class="display">00</div>
         <div class="buttons">
-          <button id="analista-minus" class="btn minus" onclick="updateCounter('analista', -1, this)">−</button>
-          <button id="analista-plus" class="btn plus" onclick="updateCounter('analista', 1, this)">+</button>
+          <button class="btn minus" onclick="updateCounter('analista', -1, this)">−</button>
+          <button class="btn plus" onclick="updateCounter('analista', 1, this)">+</button>
+        </div>
+      </div>
+
+      <div class="counter">
+        <h2>Diversos</h2>
+        <div id="diversos-display" class="display">00</div>
+        <div class="buttons">
+          <button class="btn minus" onclick="updateCounter('diversos', -1, this)">−</button>
+          <button class="btn plus" onclick="updateCounter('diversos', 1, this)">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="counter">
+        <h2>Rejeição</h2>
+        <div id="rejeicao-display" class="display">00</div>
+        <div class="buttons">
+          <button class="btn minus" onclick="updateCounter('rejeicao', -1, this)">−</button>
+          <button class="btn plus" onclick="updateCounter('rejeicao', 1, this)">+</button>
+        </div>
+      </div>
+
+      <div class="counter">
+        <h2>Canhoto</h2>
+        <div id="canhoto-display" class="display">00</div>
+        <div class="buttons">
+          <button class="btn minus" onclick="updateCounter('canhoto', -1, this)">−</button>
+          <button class="btn plus" onclick="updateCounter('canhoto', 1, this)">+</button>
+        </div>
+      </div>
+
+      <div class="counter">
+        <h2>NFe/CTe</h2>
+        <div id="nfecte-display" class="display">00</div>
+        <div class="buttons">
+          <button class="btn minus" onclick="updateCounter('nfecte', -1, this)">−</button>
+          <button class="btn plus" onclick="updateCounter('nfecte', 1, this)">+</button>
         </div>
       </div>
     </div>
@@ -177,12 +285,26 @@
 
     <div class="footer">
       <button class="reset-btn" onclick="resetCounters()">Redefinir</button>
+      <button class="save-btn" onclick="saveHistory()">Salvar</button>
     </div>
   </main>
 
+  <div id="history-panel">
+    <h2>Histórico</h2>
+    <ul id="history-list"></ul>
+    <button id="clear-history-btn">Limpar Histórico</button>
+  </div>
+
   <script>
-    let helper = 0;
-    let analista = 0;
+    let counters = {
+      helper: { value: 0, weight: 0.6 },
+      analista: { value: 0, weight: 1.1 },
+      diversos: { value: 0, weight: 1.1 },
+      rejeicao: { value: 0, weight: 0.2 },
+      canhoto: { value: 0, weight: 0.3 },
+      nfecte: { value: 0, weight: 0.1 }
+    };
+
     let total = 0;
 
     function flashButton(button, colorClass) {
@@ -193,16 +315,9 @@
     }
 
     function updateCounter(type, change, button) {
-      if (type === 'helper') {
-        helper += change;
-        document.getElementById('helper-display').innerText = helper.toString().padStart(2, '0');
-        total += change * 0.6;
-      } else if (type === 'analista') {
-        analista += change;
-        document.getElementById('analista-display').innerText = analista.toString().padStart(2, '0');
-        total += change * 1.1;
-      }
-
+      counters[type].value += change;
+      document.getElementById(type + '-display').innerText = counters[type].value.toString().padStart(2, '0');
+      total += change * counters[type].weight;
       document.getElementById('total').innerText = total.toFixed(1);
 
       if (button.classList.contains('plus')) {
@@ -213,13 +328,39 @@
     }
 
     function resetCounters() {
-      helper = 0;
-      analista = 0;
+      for (let key in counters) {
+        counters[key].value = 0;
+        document.getElementById(key + '-display').innerText = "00";
+      }
       total = 0;
-      document.getElementById('helper-display').innerText = "00";
-      document.getElementById('analista-display').innerText = "00";
       document.getElementById('total').innerText = total.toFixed(1);
     }
+
+    function saveHistory() {
+      const list = document.getElementById('history-list');
+      const li = document.createElement('li');
+      const now = new Date();
+      li.textContent = `${now.toLocaleString()} → Total: ${total.toFixed(1)}`;
+      list.prepend(li);
+    }
+
+    const historyPanel = document.getElementById('history-panel');
+    const historyToggle = document.getElementById('history-toggle');
+
+    historyToggle.addEventListener('click', (e) => {
+      historyPanel.classList.add('open');
+      e.stopPropagation();
+    });
+
+    document.body.addEventListener('click', (e) => {
+      if (!historyPanel.contains(e.target) && !historyToggle.contains(e.target)) {
+        historyPanel.classList.remove('open');
+      }
+    });
+
+    document.getElementById('clear-history-btn').addEventListener('click', () => {
+      document.getElementById('history-list').innerHTML = '';
+    });
   </script>
 
 </body>
