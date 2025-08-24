@@ -56,7 +56,7 @@
     .container {
       display: flex;
       justify-content: center;
-      gap: 35px; /* Aumentei o espaçamento novamente */
+      gap: 35px;
       margin-top: 15px;
       flex-wrap: wrap;
     }
@@ -209,6 +209,18 @@
       background: #ff4040;
     }
 
+    #history-total {
+      margin-top: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #111;
+      text-align: center;
+      padding: 6px;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+
   </style>
 </head>
 <body>
@@ -293,6 +305,7 @@
     <h2>Histórico</h2>
     <ul id="history-list"></ul>
     <button id="clear-history-btn">Limpar Histórico</button>
+    <div id="history-total">Total Acumulado: 0.0</div>
   </div>
 
   <script>
@@ -306,6 +319,7 @@
     };
 
     let total = 0;
+    let historyTotal = 0;
 
     function flashButton(button, colorClass) {
       button.classList.add(colorClass);
@@ -342,6 +356,9 @@
       const now = new Date();
       li.textContent = `${now.toLocaleString()} → Total: ${total.toFixed(1)}`;
       list.prepend(li);
+
+      historyTotal += total;
+      document.getElementById('history-total').innerText = `Total Acumulado: ${historyTotal.toFixed(1)}`;
     }
 
     const historyPanel = document.getElementById('history-panel');
@@ -360,8 +377,12 @@
 
     document.getElementById('clear-history-btn').addEventListener('click', () => {
       document.getElementById('history-list').innerHTML = '';
+      historyTotal = 0;
+      document.getElementById('history-total').innerText = "Total Acumulado: 0.0";
     });
   </script>
 
 </body>
 </html>
+
+
