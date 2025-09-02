@@ -321,6 +321,38 @@
     let total = 0;
     let historyTotal = 0;
 
+    // ---- Funções para salvar e carregar ----
+    function saveToLocalStorage() {
+      localStorage.setItem('counters', JSON.stringify(counters));
+      localStorage.setItem('total', total);
+      localStorage.setItem('history', document.getElementById('history-list').innerHTML);
+      localStorage.setItem('historyTotal', historyTotal);
+    }
+
+    function loadFromLocalStorage() {
+      if (localStorage.getItem('counters')) {
+        counters = JSON.parse(localStorage.getItem('counters'));
+        for (let key in counters) {
+          document.getElementById(key + '-display').innerText = counters[key].value.toString().padStart(2, '0');
+        }
+      }
+
+      if (localStorage.getItem('total')) {
+        total = parseFloat(localStorage.getItem('total'));
+        document.getElementById('total').innerText = total.toFixed(1);
+      }
+
+      if (localStorage.getItem('history')) {
+        document.getElementById('history-list').innerHTML = localStorage.getItem('history');
+      }
+
+      if (localStorage.getItem('historyTotal')) {
+        historyTotal = parseFloat(localStorage.getItem('historyTotal'));
+        document.getElementById('history-total').innerText = `Total Acumulado: ${historyTotal.toFixed(1)}`;
+      }
+    }
+
+    // ---- Funções principais ----
     function flashButton(button, colorClass) {
       button.classList.add(colorClass);
       setTimeout(() => {
@@ -333,6 +365,8 @@
       document.getElementById(type + '-display').innerText = counters[type].value.toString().padStart(2, '0');
       total += change * counters[type].weight;
       document.getElementById('total').innerText = total.toFixed(1);
+
+      saveToLocalStorage(); // salva sempre que altera
 
       if (button.classList.contains('plus')) {
         flashButton(button, 'active-green');
@@ -348,6 +382,7 @@
       }
       total = 0;
       document.getElementById('total').innerText = total.toFixed(1);
+      saveToLocalStorage();
     }
 
     function saveHistory() {
@@ -359,6 +394,8 @@
 
       historyTotal += total;
       document.getElementById('history-total').innerText = `Total Acumulado: ${historyTotal.toFixed(1)}`;
+
+      saveToLocalStorage();
     }
 
     const historyPanel = document.getElementById('history-panel');
@@ -379,10 +416,15 @@
       document.getElementById('history-list').innerHTML = '';
       historyTotal = 0;
       document.getElementById('history-total').innerText = "Total Acumulado: 0.0";
+      saveToLocalStorage();
     });
+
+    // Carregar dados ao abrir a página
+    window.onload = loadFromLocalStorage;
   </script>
 
 </body>
 </html>
+
 
 
